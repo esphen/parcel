@@ -61,6 +61,7 @@ export type Engines = {
 export type Target = {|
   name: string,
   distPath?: FilePath,
+  distPathType?: string,
   env: Environment
 |};
 
