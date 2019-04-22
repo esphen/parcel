@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 
 import {Packager} from '@parcel/plugin';
 import fs from 'fs';
@@ -11,7 +11,7 @@ const PRELUDE = fs
 export default new Packager({
   async package(bundle) {
     let promises = [];
-    bundle.assetGraph.traverse(node => {
+    bundle.traverse(node => {
       if (node.type === 'asset') {
         promises.push(node.value.getOutput());
       }
@@ -21,7 +21,7 @@ export default new Packager({
     let assets = '';
     let i = 0;
     let first = true;
-    bundle.assetGraph.traverse(node => {
+    bundle.traverse(node => {
       if (node.type !== 'asset' && node.type !== 'asset_reference') {
         return;
       }
@@ -40,9 +40,9 @@ export default new Packager({
           ':[function(require,module,exports) {},{}]';
       } else {
         let deps = {};
-        let dependencies = bundle.assetGraph.getDependencies(asset);
+        let dependencies = bundle.getDependencies(asset);
         for (let dep of dependencies) {
-          let resolved = bundle.assetGraph.getDependencyResolution(dep);
+          let resolved = bundle.getDependencyResolution(dep);
           if (resolved) {
             deps[dep.moduleSpecifier] = resolved.id;
           }
@@ -69,9 +69,7 @@ export default new Packager({
       '({' +
       assets +
       '},{},' +
-      JSON.stringify(
-        bundle.assetGraph.getEntryAssets().map(asset => asset.id)
-      ) +
+      JSON.stringify(bundle.getEntryAssets().map(asset => asset.id)) +
       ', ' +
       'null' +
       ')'

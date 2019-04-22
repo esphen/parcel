@@ -5,7 +5,7 @@ import {Packager} from '@parcel/plugin';
 export default new Packager({
   async package(bundle) {
     let promises = [];
-    bundle.assetGraph.traverseAssets(asset => {
+    bundle.traverseAssets(asset => {
       promises.push(asset.getOutput());
     });
     let outputs = await Promise.all(promises);
