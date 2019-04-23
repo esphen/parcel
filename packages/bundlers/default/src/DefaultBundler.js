@@ -1,5 +1,5 @@
 // @flow
-import type {BundleGroup, Bundle, MutableBundle} from '@parcel/types';
+import type {BundleGroup, MutableBundle} from '@parcel/types';
 import {Bundler} from '@parcel/plugin';
 
 const OPTIONS = {
